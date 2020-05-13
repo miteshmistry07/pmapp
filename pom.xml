@@ -37,6 +37,20 @@
 			<version>5.1.47</version>
 		</dependency>
 		
+		<!-- Added for Spring Security inc JWT -->
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.9.1</version>
+		</dependency>
+		
+		
 		<!-- reboots server etc when a change is made -->
 		<!-- https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html -->
 		<dependency>
@@ -44,7 +58,7 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
