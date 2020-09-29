@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/premise")
 @RestController
 public class PremiseController {
-	//http://localhost:8080/api/premise
+	// http://localhost:8080/api/premise
 	
 	@Autowired 
 	private PremiseService premiseService;
@@ -56,9 +56,10 @@ public class PremiseController {
 	//update 
 	@CrossOrigin
 	@PutMapping("/update")
-	public Premise updatePremise(@RequestBody Premise premise) {
-		premiseService.savePremise(premise);
-		return null;
+	public void updatePremise(@RequestBody Premise premise) {
+		//premiseService.savePremise(premise);
+		premiseService.saveExistingPremise(premise);
+		//return null;
 	}
 		
 	//delete
@@ -71,7 +72,7 @@ public class PremiseController {
 	
 	@CrossOrigin
 	@GetMapping("/list") 
-	public Iterable<Premise>  all() {
+	public Iterable<Premise> all() {
 		//list of all premises
 		return premiseService.getAllPremises();
 	} 

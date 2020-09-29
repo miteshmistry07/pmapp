@@ -2,12 +2,15 @@ package org.mistry.pms.service;
 
 import java.util.Optional;
 
+import org.mistry.pms.controller.validation.PremiseNotFoundException;
 import org.mistry.pms.entity.Premise;
 import org.mistry.pms.repository.PremiseRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class PremiseServiceImpl implements PremiseService {
@@ -27,7 +30,6 @@ public class PremiseServiceImpl implements PremiseService {
 	@Override
 	public Iterable<Premise> getPage(Pageable page) {
 		return premiseRepository.findAll(page);
-				//https://stackabuse.com/guide-to-spring-data-jpa/
 	}
 	
 	//creates a new premise
@@ -44,7 +46,29 @@ public class PremiseServiceImpl implements PremiseService {
 	
 	@Override
 	public Optional<Premise> getPremiseById(int premiseId) {
+		return premiseRepository.findById(premiseId);	
+	}
+	
+	@Override
+	public void saveExistingPremise(Premise premiseToSave) {
 		
-		return premiseRepository.findById(premiseId);
+		int premiseId = premiseToSave.getPremiseId(); //get the premise ID from request body 
+		Optional<Premise> premise = this.getPremiseById(premiseId);
+		
+		//get the Premise Id and check if it exists..
+		if (premise.isPresent()) {
+			premiseRepository.save(premiseToSave);
+		}
+		else {
+			//premise.orElseThrow(() -> new PremiseNotFoundException(premiseToSave.getPremiseId()));
+			 premise.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid Premise ID: " + premiseToSave.getPremiseId(), new PremiseNotFoundException(premiseToSave.getPremiseId())));
+			 //https://www.baeldung.com/spring-response-status-exception
+		}
+		
+		//https://stackabuse.com/guide-to-spring-data-jpa/
+		//https://spring.io/guides/tutorials/rest/
+		
+		
+		
 	}
 }

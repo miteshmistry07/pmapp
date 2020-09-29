@@ -18,4 +18,6 @@ public interface PremiseService {
 	
 	public Optional<Premise> getPremiseById(int premiseId);
 	
+	public void saveExistingPremise(Premise premise);
+	
 }
