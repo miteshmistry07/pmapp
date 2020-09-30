@@ -46,7 +46,14 @@ public class PremiseServiceImpl implements PremiseService {
 	
 	@Override
 	public Optional<Premise> getPremiseById(int premiseId) {
-		return premiseRepository.findById(premiseId);	
+		//return PremiseNotFoundException
+		Optional<Premise> premise = premiseRepository.findById(premiseId);
+		
+		if (!premise.isPresent()) {
+			premise.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid Premise ID: " + premiseId, new PremiseNotFoundException(premiseId)));
+		}
+		
+		return premise;
 	}
 	
 	@Override
